@@ -1,0 +1,66 @@
+# Dependências Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Variáveis de ambiente
+.env
+.env.local
+.env.*.local
+
+# Dados grandes / datasets do docente
+data/
+*.zip
+*.gpkg
+*.shp
+*.shx
+*.dbf
+*.prj
+*.cpg
+*.qix
+*.tif
+*.tiff
+*.geojson
+
+# Volumes / dados locais Docker
+postgres_data/
+pgadmin_data/
+geoserver_data/
+
+# Ficheiros temporários
+tmp/
+temp/
+.cache/
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Builds / outputs
+dist/
+build/
+coverage/
+
+# Ficheiros de IDE/editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# PowerPoint/vídeo/entrega final local
+entrega/
+videos/
+*.mp4
+*.mov
+*.avi
+*.pptx
+*.pdf
+
+# Backups locais
+*.bak
+*.backup
+*.old

@@ -1,0 +1,8 @@
+CREATE EXTENSION IF NOT EXISTS postgis;
+CREATE EXTENSION IF NOT EXISTS postgis_raster;
+CREATE EXTENSION IF NOT EXISTS unaccent;
+
+CREATE OR REPLACE FUNCTION unaccent_lower(text)
+RETURNS text AS $$
+  SELECT lower(unaccent('public.unaccent', COALESCE($1, '')));
+$$ LANGUAGE sql IMMUTABLE PARALLEL SAFE;

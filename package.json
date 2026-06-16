@@ -1,0 +1,22 @@
+{
+  "name": "igv-tp2-opcao2-geoportal",
+  "version": "1.0.0",
+  "description": "Geoportal WebSIG para análise espacial do Alojamento Local em Viana do Castelo, com PostGIS, GeoServer, Node.js e Leaflet.",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "node --watch backend/server.js",
+    "publish:geoserver": "node scripts/geoserver-publish.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "helmet": "^8.0.0",
+    "morgan": "^1.10.0",
+    "pg": "^8.13.1"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

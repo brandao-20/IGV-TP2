@@ -1,0 +1,65 @@
+name: igv_2526
+
+services:
+  dbgis_igv:
+    image: postgis/postgis:16-3.5
+    container_name: postgis_igv
+    restart: unless-stopped
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - pg_data_igv:/var/lib/postgresql/data
+      - ./sql:/home/sql_files
+      - ./data:/data
+    networks:
+      - postgres_network
+
+  pgadmin4:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin4_igv
+    restart: unless-stopped
+    depends_on:
+      - dbgis_igv
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@pgadmin.org
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+      PGADMIN_CONFIG_CONSOLE_LOG_LEVEL: 50
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+      - ./sql:/home/sql_files
+    networks:
+      - postgres_network
+
+  geoserver:
+    image: docker.osgeo.org/geoserver:2.26.2
+    container_name: geoserver_igv
+    restart: unless-stopped
+    depends_on:
+      - dbgis_igv
+    ports:
+      - "8080:8080"
+    environment:
+      GEOSERVER_ADMIN_USER: admin
+      GEOSERVER_ADMIN_PASSWORD: geoserver
+    volumes:
+      - geoserver_data:/opt/geoserver_data
+      - ./data:/data
+      - ./geoserver/sld:/sld
+    networks:
+      - postgres_network
+
+networks:
+  postgres_network:
+    driver: bridge
+
+volumes:
+  pg_data_igv:
+  pgadmin_data:
+  geoserver_data:
