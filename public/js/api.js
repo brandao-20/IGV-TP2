@@ -25,6 +25,7 @@ window.API = (() => {
     freguesiaStats: (dtmnfr) => request(`/api/freguesias/${encodeURIComponent(dtmnfr)}/estatisticas`),
     identify: (lat, lng) => request(`/api/identify?lat=${encodeURIComponent(lat)}&lng=${encodeURIComponent(lng)}`),
     near: (lat, lng, radius) => request(`/api/alojamentos/near?lat=${encodeURIComponent(lat)}&lng=${encodeURIComponent(lng)}&radius=${encodeURIComponent(radius)}`),
+    alojamentosGeoJSON: () => request('/api/alojamentos/geojson'),
     areaAnalysis: (geometry) => request('/api/analise/area', { method: 'POST', body: JSON.stringify({ geometry }) }),
     buffer: (lat, lng, radius) => request('/api/analise/buffer', { method: 'POST', body: JSON.stringify({ lat, lng, radius }) }),
     ranking: (limit = 10) => request(`/api/ranking/freguesias?limit=${limit}`)

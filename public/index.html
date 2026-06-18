@@ -19,6 +19,7 @@
         <h1>SIG-AL</h1>
       </div>
       <div class="topbar-summary">
+        <button id="btnResetMap" class="topbar-button" title="Recentrar o mapa na área de estudo">Recentrar</button>
         <span id="statusBadge" class="badge badge-warning">A iniciar…</span>
         <span id="studyAreaLabel">Viana do Castelo</span>
       </div>
@@ -35,6 +36,14 @@
           <label><input type="checkbox" data-layer="bgri" /> BGRI 2021</label>
           <label><input type="checkbox" data-layer="dem" /> DEM SRTM 25m</label>
         </div>
+      </section>
+
+      <section class="panel-section opacity-panel">
+        <h2>Opacidade das camadas</h2>
+        <label>Densidade AL <input type="range" min="0" max="100" value="65" data-opacity-layer="alojamentosPorFreguesia" /></label>
+        <label>Freguesias <input type="range" min="0" max="100" value="75" data-opacity-layer="freguesias" /></label>
+        <label>BGRI 2021 <input type="range" min="0" max="100" value="35" data-opacity-layer="bgri" /></label>
+        <label>DEM <input type="range" min="0" max="100" value="55" data-opacity-layer="dem" /></label>
       </section>
 
       <section class="panel-section">
@@ -55,6 +64,7 @@
           <div class="scale-bar"><i></i><i></i><i></i><i></i><i></i></div>
           <div class="scale-labels"><span>0</span><span>&gt;100</span></div>
         </div>
+        <div id="dynamicLegend" class="dynamic-legend"></div>
       </section>
 
       <section class="panel-section stats-mini" id="globalStats">
@@ -62,6 +72,17 @@
         <div class="metric"><span>Alojamentos</span><strong>—</strong></div>
         <div class="metric"><span>Capacidade</span><strong>—</strong></div>
         <div class="metric"><span>População</span><strong>—</strong></div>
+      </section>
+
+      <section class="panel-section validation-panel">
+        <h2>Validação TP2</h2>
+        <ul class="check-list">
+          <li>PostGIS + consultas espaciais</li>
+          <li>GeoServer + WMS/SLD</li>
+          <li>Leaflet com mapa interativo</li>
+          <li>Vetorial + raster DEM</li>
+          <li>Interseções, buffers e estatísticas</li>
+        </ul>
       </section>
     </aside>
 
@@ -77,6 +98,7 @@
         </div>
 
         <div id="tab-freguesia" class="tab-content active">
+          <p class="help-text">Escolhe uma freguesia ou clica numa freguesia no mapa para a selecionar automaticamente.</p>
           <label for="freguesiaSelect">Selecionar freguesia</label>
           <select id="freguesiaSelect"></select>
           <button id="btnAnaliseFreguesia" class="primary">Analisar freguesia</button>
@@ -84,14 +106,24 @@
         </div>
 
         <div id="tab-area" class="tab-content">
-          <p class="help-text">Desenha um polígono ou retângulo no mapa e executa a análise. São cruzados Alojamento Local, CAOP, BGRI e, se importado, DEM.</p>
+          <p class="help-text"><strong>1.</strong> Clica em desenhar polígono ou retângulo. <strong>2.</strong> Delimita a área. <strong>3.</strong> Executa a análise. A área é cruzada com Alojamento Local, CAOP, BGRI e DEM.</p>
+          <div class="button-grid">
+            <button id="btnDrawPolygon" class="secondary">Desenhar polígono</button>
+            <button id="btnDrawRectangle" class="secondary">Desenhar retângulo</button>
+          </div>
+          <div id="drawMeasure" class="measure-card muted">Ainda não existe área desenhada.</div>
           <button id="btnAreaAnalysis" class="primary">Executar análise da área</button>
           <button id="btnClearDrawings" class="secondary">Limpar desenho</button>
-          <div id="areaResult" class="result-card muted">Ainda não existe área desenhada.</div>
+          <div id="areaResult" class="result-card muted">Desenha uma área para iniciar a análise.</div>
+          <div id="areaExportTools" class="export-tools hidden">
+            <button id="btnExportAreaCsv" class="secondary small">Exportar CSV</button>
+            <button id="btnExportAreaGeojson" class="secondary small">Exportar GeoJSON</button>
+            <button id="btnCopyAreaSummary" class="secondary small">Copiar resumo</button>
+          </div>
         </div>
 
         <div id="tab-raio" class="tab-content">
-          <p class="help-text">Clica no mapa para definir o centro e procura alojamentos num raio.</p>
+          <p class="help-text">Clica no mapa para definir o centro e procurar alojamentos dentro de uma área de influência.</p>
           <label for="radiusInput">Raio em metros</label>
           <input id="radiusInput" type="number" min="50" max="10000" value="500" />
           <button id="btnRadiusAnalysis" class="primary">Pesquisar no raio</button>
@@ -102,6 +134,19 @@
       <section class="panel-section">
         <h2>Identificação</h2>
         <div id="identifyResult" class="result-card muted">Clica no mapa para identificar a freguesia e o alojamento local mais próximo.</div>
+      </section>
+
+      <section class="panel-section formulas-panel">
+        <h2>Indicadores</h2>
+        <details>
+          <summary>Como são calculados?</summary>
+          <ul class="help-text formula-list">
+            <li><strong>AL/km²</strong> = alojamentos locais / área analisada.</li>
+            <li><strong>AL/1000 hab.</strong> = alojamentos locais × 1000 / população BGRI estimada.</li>
+            <li><strong>Área analisada</strong> = interseção entre a área desenhada e o município.</li>
+            <li><strong>BGRI na área</strong> = ponderação proporcional pela área de interseção de cada subsecção.</li>
+          </ul>
+        </details>
       </section>
 
       <section class="panel-section">

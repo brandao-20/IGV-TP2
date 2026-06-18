@@ -11,23 +11,48 @@
       <Title>Freguesias</Title>
       <FeatureTypeStyle>
         <Rule>
+          <Name>Limites</Name>
+          <Title>Limites de freguesia</Title>
           <PolygonSymbolizer>
-            <Fill><CssParameter name="fill">#ffffff</CssParameter><CssParameter name="fill-opacity">0.02</CssParameter></Fill>
-            <Stroke><CssParameter name="stroke">#334155</CssParameter><CssParameter name="stroke-width">0.8</CssParameter></Stroke>
+            <Fill>
+              <CssParameter name="fill">#ffffff</CssParameter>
+              <CssParameter name="fill-opacity">0.01</CssParameter>
+            </Fill>
+            <Stroke>
+              <CssParameter name="stroke">#334155</CssParameter>
+              <CssParameter name="stroke-width">0.75</CssParameter>
+              <CssParameter name="stroke-opacity">0.85</CssParameter>
+            </Stroke>
           </PolygonSymbolizer>
+        </Rule>
+        <Rule>
+          <Name>Etiquetas</Name>
+          <Title>Etiquetas de freguesia apenas em zoom aproximado</Title>
+          <MaxScaleDenominator>85000</MaxScaleDenominator>
           <TextSymbolizer>
             <Label><ogc:PropertyName>freguesia</ogc:PropertyName></Label>
             <Font>
               <CssParameter name="font-family">Arial</CssParameter>
-              <CssParameter name="font-size">11</CssParameter>
+              <CssParameter name="font-size">9</CssParameter>
               <CssParameter name="font-style">normal</CssParameter>
               <CssParameter name="font-weight">bold</CssParameter>
             </Font>
-            <LabelPlacement><PointPlacement><AnchorPoint><AnchorPointX>0.5</AnchorPointX><AnchorPointY>0.5</AnchorPointY></AnchorPoint></PointPlacement></LabelPlacement>
-            <Halo><Radius>1.5</Radius><Fill><CssParameter name="fill">#ffffff</CssParameter></Fill></Halo>
+            <LabelPlacement>
+              <PointPlacement>
+                <AnchorPoint>
+                  <AnchorPointX>0.5</AnchorPointX>
+                  <AnchorPointY>0.5</AnchorPointY>
+                </AnchorPoint>
+              </PointPlacement>
+            </LabelPlacement>
+            <Halo>
+              <Radius>1.2</Radius>
+              <Fill><CssParameter name="fill">#ffffff</CssParameter></Fill>
+            </Halo>
             <Fill><CssParameter name="fill">#1e293b</CssParameter></Fill>
             <VendorOption name="conflictResolution">true</VendorOption>
-            <VendorOption name="maxDisplacement">80</VendorOption>
+            <VendorOption name="maxDisplacement">120</VendorOption>
+            <VendorOption name="goodnessOfFit">0.5</VendorOption>
           </TextSymbolizer>
         </Rule>
       </FeatureTypeStyle>

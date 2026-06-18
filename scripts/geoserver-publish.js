@@ -15,7 +15,6 @@ const STORE = process.env.GEOSERVER_STORE || 'postgis_igv';
 const USER = process.env.GEOSERVER_USER || 'admin';
 const PASSWORD = process.env.GEOSERVER_PASSWORD || 'geoserver';
 const PGHOST_FOR_GEOSERVER = process.env.PGHOST_FOR_GEOSERVER || 'dbgis_igv';
-const PGPORT_FOR_GEOSERVER = process.env.PGPORT_FOR_GEOSERVER || '5432';
 
 const auth = `Basic ${Buffer.from(`${USER}:${PASSWORD}`).toString('base64')}`;
 
@@ -82,7 +81,7 @@ async function createDatastore() {
       enabled: true,
       connectionParameters: {
         host: PGHOST_FOR_GEOSERVER,
-        port: PGPORT_FOR_GEOSERVER,
+        port: process.env.PGPORT_FOR_GEOSERVER || '5432',
         database: process.env.PGDATABASE || 'igv_tp2',
         user: process.env.PGUSER || 'postgres',
         passwd: process.env.PGPASSWORD || 'postgres',
